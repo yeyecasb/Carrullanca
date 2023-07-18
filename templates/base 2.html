@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Constructora Carrullanca | {% block title%}{% endblock %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+ 
+</head>
+<body>
+    <!-- Navbar -->
+    {% load static %}
+    <nav class="navbar navbar-expand-lg  navbar-light bg-light">
+        <div class="container-fluid">
+          <a href="{% url 'index' %}" class="navbar-brand"><img src="{% static 'img/Logo_Empresa-removebg-preview.png'%}" alt="Bootstrap" class="img-fluid" width="100" height="24"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Vehículos
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'vehiculos' %}">Listado de Vehículos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'nuevo_vehiculo' %}">Agregar Vehículos</a></li>
+                  <li><a class="dropdown-item" href="{% url 'mantenciones' %}">Listado de Mantenciones</a></li>
+                  <li><a class="dropdown-item" href="{% url 'nueva_mantencion' %}">Agregar Mantención</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Personal
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Listado de Personal</a></li>
+                    <li><a class="dropdown-item" href="#">Agregar Personal</a></li>
+                  <li><a class="dropdown-item" href="#">Generar Liquidaciones</a></li>
+                  <li><a class="dropdown-item" href="#">Generar Finiquitos</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Proyectos
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Listado de Proyectos</a></li>
+                    <li><a class="dropdown-item" href="#">Crear Proyecto</a></li>
+                  <li><a class="dropdown-item" href="#">Estados de Pago</a></li>
+                  <li><a class="dropdown-item" href="#">Generar Finiquitos</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+    <!-- Contenido -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class='container text-center'>
+        <p>Copyright © 2023 | Constructora Carrullanca Ltda.</p>
+    </footer>
+</body>
+</html>

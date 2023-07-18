@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title%} Listado de Vehiculos {% endblock %}
+{% block content %}
+<h2 class='text-center'>Listado de vehículos</h2>
+
+<table class="container table datatable">
+    <thead>
+    <tr>
+        <th scope='col'>#</th>
+        <th scope="col">Patente</th>
+        <th scope="col">Marca</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Año</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Serie Motor</th>
+        <th scope="col">Serie Chasis</th>
+        <th scope="col">Combustible</th>
+        <th scope="col">Fecha Adquisición</th>
+        <th scope="col">Encargado</th>
+        <th scope="col">Eliminar</th>
+    </tr>
+</thead>
+<tbody>
+    {% for vehiculo in vehiculos %}
+    <tr>
+        <th scope="row"><a href='editar/{{ vehiculo.id }}'></a>{{ vehiculo.id }}</th>
+        <td>{{ vehiculo.patente }}</td>
+        <td>{{ vehiculo.marca }}</td>
+        <td>{{ vehiculo.modelo }}</td>
+        <td>{{ vehiculo.año }}</td>
+        <td>{{ vehiculo.categoria }}</td>
+        <td>{{ vehiculo.serie_motor }}</td>
+        <td>{{ vehiculo.serie_chasis }}</td>
+        <td>{{ vehiculo.combustible }}</td>
+        <td>{{ vehiculo.fecha_adquisicion }}</td>
+        <td>{{ vehiculo.personal.primer_nombre }} {{ vehiculo.personal.apellido_paterno }}</td>
+        <td><a href='eliminar/{{ vehiculo.id }}'>X</td>
+
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}

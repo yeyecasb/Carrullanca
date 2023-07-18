@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title%} Eliminar Mantenciones {% endblock %}
+{% block content %}
+<h2>Eliminar Mantención</h2>
+
+<p>¿Estás seguro de que quieres eliminar la mantención {{ mantencion.id }}, realizada el {{mantencion.fecha_mantencion}} al vehiculo de patente {{mantencion.vehiculo.patente}}?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title%} Mantenimiento de Vehiculos {% endblock %}
+{% block content %}
+<h2 class='text-center'>Mantenimiento de vehículos</h2>
+
+<table class="container table datatable">
+    <thead>
+    <tr>
+        <th scope='col'>#</th>
+        <th scope="col">Vehículo</th>
+        <th scope="col">Fecha de Mantención</th>
+        <th scope="col">Kilometraje</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Detalles</th>
+        <th scope="col">Eliminar</th>
+    </tr>
+</thead>
+<tbody>
+    {% for mantencion in mantenciones %}
+    <tr>
+        <th scope="row"><a href='editar/{{ mantencion.id }}'></a>{{mantencion.id}}</th>
+        <td>{{ mantencion.vehiculo.patente }}</td>
+        <td>{{ mantencion.fecha_mantencion }}</td>
+        <td>{{ mantencion.kilometraje }}</td>
+        <td>{{ mantencion.valor }}</td>
+        <td>{{ mantencion.detalles }}</td>
+        <td><a href='eliminar/{{ mantencion.id }}'>X</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}
