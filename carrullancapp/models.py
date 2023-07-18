@@ -158,7 +158,7 @@ class Proyectos(models.Model):
     estado = models.BooleanField()
     fecha_modificacion = models.DateField(auto_now_add=True)
     fecha_creacion = models.DateField(auto_now_add=True)
-    presupues
+    
 
 
     def __str__(self):
