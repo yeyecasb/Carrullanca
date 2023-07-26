@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Vehiculos, MantencionVehiculos, Personal
-from .forms import VehiculoForm, MantencionForm, PersonalForm
+from .models import Vehiculos, MantencionVehiculos, Personal, Proyectos, AnalisisPreciosUnitarios
+from .forms import VehiculoForm, MantencionForm, PersonalForm, ProyectoForm, MaterialCostForm, LaborCostForm, EquipmentCostForm, AnalisisForm
 
 # Create your views here.
 def index(request):
@@ -113,3 +113,133 @@ def eliminar_personal(request, id):
         personal.delete()
         return redirect('personal')
     return render(request, 'eliminar_personal.html', {'personal': personal})
+
+# Crear proyecto
+def crear_proyecto(request):
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('proyectos')
+    else:
+        form = ProyectoForm()
+    return render(request, 'editar_proyecto.html', {'form': form})
+
+# Listar proyectos
+def lista_proyectos(request):
+    proyectos = Proyectos.objects.all()
+    return render(request, 'proyectos.html', {'proyectos': proyectos})
+
+def editar_proyecto(request, id):
+    proyecto = get_object_or_404(ProyectoForm, pk=id)
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST, instance=proyecto)
+        if form.is_valid():
+            form.save()
+            return redirect('proyectos')
+    else:
+        form = ProyectoForm()
+    return render(request, 'editar_proyecto.html', {'form': form})
+
+# Eliminar un registro de proyecto
+def eliminar_proyecto(request, id):
+    proyectos = get_object_or_404(Proyectos, pk=id)
+    if request.method == 'POST':
+        proyectos.delete()
+        return redirect('proyectos')
+    return render(request, 'eliminar_proyecto.html', {'proyectos': proyectos})
+
+def material_cost_new(request, pk):
+    analisis = get_object_or_404(AnalisisPreciosUnitarios, pk=pk)
+    if request.method == "POST":
+        form = MaterialCostForm(request.POST)
+        if form.is_valid():
+            material_cost = form.save(commit=False)
+            material_cost.analisis = analisis
+            material_cost.save()
+            return redirect('analisis_detail', pk=analisis.pk)
+    else:
+        form = MaterialCostForm()
+    return render(request, 'material_cost_edit.html', {'form': form})
+
+def labor_cost_new(request, pk):
+    analisis = get_object_or_404(AnalisisPreciosUnitarios, pk=pk)
+    if request.method == "POST":
+        form = LaborCostForm(request.POST)
+        if form.is_valid():
+            material_cost = form.save(commit=False)
+            material_cost.analisis = analisis
+            material_cost.save()
+            return redirect('analisis_detail', pk=analisis.pk)
+    else:
+        form = LaborCostForm()
+    return render(request, 'labor_cost_edit.html', {'form': form})
+
+def equipament_cost_new(request, pk):
+    analisis = get_object_or_404(AnalisisPreciosUnitarios, pk=pk)
+    if request.method == "POST":
+        form = EquipmentCostForm(request.POST)
+        if form.is_valid():
+            material_cost = form.save(commit=False)
+            material_cost.analisis = analisis
+            material_cost.save()
+            return redirect('analisis_detail', pk=analisis.pk)
+    else:
+        form = EquipmentCostForm()
+    return render(request, 'equipment_cost_edit.html', {'form': form})
+
+def analisis_historial(request, pk):
+    analisis = get_object_or_404(AnalisisPreciosUnitarios, pk=pk)
+    costos_materiales = {costo.fecha: costo.total_cost for costo in analisis.material_costs.all()}
+    costos_mano_de_obra = {costo.fecha: costo.total_cost for costo in analisis.labor_costs.all()}
+    costos_equipos = {costo.fecha: costo.total_cost for costo in analisis.equipment_costs.all()}
+
+    fechas = sorted(set(costos_materiales.keys()) | set(costos_mano_de_obra.keys()) | set(costos_equipos.keys()))
+
+    costos_materiales_list = [costos_materiales.get(fecha, None) for fecha in fechas]
+    costos_mano_de_obra_list = [costos_mano_de_obra.get(fecha, None) for fecha in fechas]
+    costos_equipos_list = [costos_equipos.get(fecha, None) for fecha in fechas]
+
+    return render(request, 'analisis_historial.html', {
+        'analisis': analisis, 
+        'fechas': fechas, 
+        'costos_materiales': costos_materiales_list, 
+        'costos_mano_de_obra': costos_mano_de_obra_list, 
+        'costos_equipos': costos_equipos_list,
+    })
+
+def analisis_list(request):
+    analisis_list = AnalisisPreciosUnitarios.objects.all()
+    return render(request, 'analisis_list.html', {'analisis_list': analisis_list})
+
+def analisis_new(request):
+    if request.method == "POST":
+        analisis_form = AnalisisForm(request.POST)
+        material_form = MaterialCostForm(request.POST, prefix='material')
+        labor_form = LaborCostForm(request.POST, prefix='labor')
+        equipment_form = EquipmentCostForm(request.POST, prefix='equipment')
+
+        if all([analisis_form.is_valid(), material_form.is_valid(), labor_form.is_valid(), equipment_form.is_valid()]):
+            analisis = analisis_form.save()
+            material_cost = material_form.save(commit=False)
+            material_cost.analisis = analisis
+            material_cost.save()
+            labor_cost = labor_form.save(commit=False)
+            labor_cost.analisis = analisis
+            labor_cost.save()
+            equipment_cost = equipment_form.save(commit=False)
+            equipment_cost.analisis = analisis
+            equipment_cost.save()
+            return redirect('analisis_detail', pk=analisis.pk)
+    else:
+        analisis_form = AnalisisForm()
+        material_form = MaterialCostForm(prefix='material')
+        labor_form = LaborCostForm(prefix='labor')
+        equipment_form = EquipmentCostForm(prefix='equipment')
+
+    return render(request, 'analisis_edit.html', {
+        'analisis_form': analisis_form, 
+        'material_form': material_form, 
+        'labor_form': labor_form, 
+        'equipment_form': equipment_form,
+    })

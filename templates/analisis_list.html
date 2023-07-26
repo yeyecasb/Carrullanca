@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title%} Análisis de Precios Unitarios {% endblock %}
+{% block content %}
+
+<h2 class='text-center'>Analisis de Precios Unitarios</h2>
+
+<table class="container table datatable">
+    <thead>
+        <tr>
+            <th scope='col'>#</th>
+            <th scope='col'>Nombre</th>
+            <th scope='col'>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for analisis in analisis_list %}
+    <tr>
+        <th scope='row'><a href='editar/{{ analisis.id }}'>{{analisis.id}}</a></th>
+        <td>{{ analisis.nombre }}</td>
+        <th scope="col">Eliminar</th>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}

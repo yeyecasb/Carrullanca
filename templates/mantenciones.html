@@ -19,7 +19,7 @@
 <tbody>
     {% for mantencion in mantenciones %}
     <tr>
-        <th scope="row"><a href='editar/{{ mantencion.id }}'></a>{{mantencion.id}}</th>
+        <th scope="row"><a href='editar/{{ mantencion.id }}'>{{mantencion.id}}</a></th>
         <td>{{ mantencion.vehiculo.patente }}</td>
         <td>{{ mantencion.fecha_mantencion }}</td>
         <td>{{ mantencion.kilometraje }}</td>

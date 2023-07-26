@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title%} Proyectos {% endblock %}
+{% block content %}
+<h2 class='text-center'>Listado de Proyectos</h2>
+
+<table class="container table datatable">
+    <thead>
+    <tr>
+        <th scope='col'>#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Ubicación</th>
+        <th scope="col">Fecha de Inicio</th>
+        <th scope="col">Fecha de Término</th>
+        <th scope="col">Plazo</th>
+        <th scope="col">Monto Presupuesto</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Encargado Obra</th>
+        <th scope="col">Proyecto Serviu?</th>
+        <th scope="col">ID Proyecto SERVIU</th>
+        <th scope="col">En Ejecución</th>
+        <th scope="col">Eliminar</th>
+    </tr>
+</thead>
+<tbody>
+    {% for proyecto in proyectos %}
+    <tr>
+        <th scope="row"><a href='editar/{{ proyecto.id }}'>{{proyecto.id}}</a></th>
+        <td>{{ proyecto.nombre }}</td>
+        <td>{{ proyecto.descripcion }}</td>
+        <td>{{ proyecto.ubicacion }}</td>
+        <td>{{ proyecto.fecha_inicio }}</td>
+        <td>{{ proyecto.fecha_fin }}</td>
+        <td>{{ proyecto.plazo }}</td>
+        <td>{{ proyecto.monto_presupuesto }}</td>
+        <td>{{ proyecto.cliente }}</td>
+        <td>{{ proyecto.encargado }}</td>
+        <td>{{ proyecto.proyecto_serviu }}</td>
+        <td>{{ proyecto.id_proyecto_serviu }}</td>
+        <td>{{ proyecto.estado }}</td>
+
+        <td><a href='eliminar/{{ mantencion.id }}'>X</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}

@@ -107,7 +107,7 @@ class Vehiculos(models.Model):
     modelo = models.CharField(max_length=50)
     serie_motor = models.CharField(max_length=50, null=True, blank=True)
     serie_chasis = models.CharField(max_length=50, null=True, blank=True)
-    año = models.IntegerField()
+    anio = models.IntegerField()
     categoria = models.CharField(max_length=50)
     combustible = models.CharField(max_length=15)
     fecha_adquisicion = models.DateField()
@@ -156,9 +156,8 @@ class Proyectos(models.Model):
     proyecto_serviu =models.BooleanField()
     id_proyecto_serviu = models.IntegerField()
     estado = models.BooleanField()
-    fecha_modificacion = models.DateField(auto_now_add=True)
-    fecha_creacion = models.DateField(auto_now_add=True)
-    
+    fecha_modificacion = models.DateField(auto_now_add=True, null=True, blank=True)
+    fecha_creacion = models.DateField(auto_now_add=True, null=True, blank=True)
 
 
     def __str__(self):
@@ -282,11 +281,46 @@ class Presupuestos(models.Model):
     fecha_modificacion = models.DateField(auto_now_add=True)
 
 class AnalisisPreciosUnitarios(models.Model):
-    material = models.ForeignKey(Materiales, on_delete=models.CASCADE)
-    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
-    cantidad = models.IntegerField()
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+    nombre = models.CharField(max_length=100)
+    fecha_creacion = models.DateField(auto_now_add=True)
     fecha_modificacion = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nombre
+    
+class MaterialCost(models.Model):
+    analisis = models.ForeignKey(AnalisisPreciosUnitarios, related_name='material_costs', on_delete=models.CASCADE)
+    material = models.ForeignKey(Materiales, on_delete=models.CASCADE)
+    cantidad = models.DecimalField(max_digits=10, decimal_places=2)
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha = models.DateField(auto_now_add=True)
+
+    @property
+    def total_cost(self):
+        return self.cantidad * self.precio_unitario
+    
+class LaborCost(models.Model):
+    analisis = models.ForeignKey(AnalisisPreciosUnitarios, related_name='labor_costs', on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=100)
+    rendimiento = models.DecimalField(max_digits=10, decimal_places=2)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha = models.DateField(auto_now_add=True)
+
+    @property
+    def total_cost(self):
+        return self.rendimiento * self.monto
+    
+class EquipmentCost(models.Model):
+    analisis = models.ForeignKey(AnalisisPreciosUnitarios, related_name='equipment_costs', on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=100)
+    rendimiento = models.DecimalField(max_digits=10, decimal_places=2)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha = models.DateField(auto_now_add=True)
+
+    @property
+    def total_cost(self):
+        return self.rendimiento * self.monto
+
 
 class ControlObras(models.Model):
     proyecto = models.ForeignKey(Proyectos, on_delete=models.CASCADE)

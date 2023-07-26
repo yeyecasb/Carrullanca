@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title%} Análisis de Precios Unitarios {% endblock %}
+{% block content %}
+
+<h1>Nuevo Análisis </h1><br>
+<form method="POST">
+    {% csrf_token %}
+    <h2>Analisis</h2>
+    {{ analisis_form.as_table }}
+    <br><h2>Material Cost</h2>
+    {{ material_form.as_table }}
+    <br><h2>Labor Cost</h2>
+    {{ labor_form.as_table }}
+    <br><h2>Equipment Cost</h2>
+    {{ equipment_form.as_table }}
+    <br><button type="submit">Save</button>
+</form>
+
+{% endblock %}

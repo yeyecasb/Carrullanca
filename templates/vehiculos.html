@@ -23,11 +23,11 @@
 <tbody>
     {% for vehiculo in vehiculos %}
     <tr>
-        <th scope="row"><a href='editar/{{ vehiculo.id }}'></a>{{ vehiculo.id }}</th>
+        <th scope="row"><a href='editar/{{ vehiculo.id }}'>{{ vehiculo.id }}</a></th>
         <td>{{ vehiculo.patente }}</td>
         <td>{{ vehiculo.marca }}</td>
         <td>{{ vehiculo.modelo }}</td>
-        <td>{{ vehiculo.año }}</td>
+        <td>{{ vehiculo.anio }}</td>
         <td>{{ vehiculo.categoria }}</td>
         <td>{{ vehiculo.serie_motor }}</td>
         <td>{{ vehiculo.serie_chasis }}</td>
